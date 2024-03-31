@@ -354,7 +354,7 @@ public class SeleniumUtils extends Utils {
    */
   @Override
   public String getElementTextContent(String xpath) {
-    return getElement(xpath).getText();
+    return getElement(xpath).getText().trim();
   }
 
   /**
@@ -366,7 +366,7 @@ public class SeleniumUtils extends Utils {
    * @author Pabitra Swain (contact.the.sdet@gmail.com)
    */
   public String getElementTextContent(By element) {
-    return getElement(element).getText();
+    return getElement(element).getText().trim();
   }
 
   /**
@@ -382,7 +382,7 @@ public class SeleniumUtils extends Utils {
     List<String> data = new ArrayList<>();
     List<WebElement> elements = getElements(xpath);
     for (WebElement element : elements) {
-      data.add(replaceLineBreaksWithSpace(element.getText()));
+      data.add(replaceLineBreaksWithSpace(element.getText()).trim());
     }
     return data;
   }
@@ -399,7 +399,7 @@ public class SeleniumUtils extends Utils {
     List<String> data = new ArrayList<>();
     List<WebElement> elements = getElements(element);
     for (WebElement ele : elements) {
-      data.add(replaceLineBreaksWithSpace(ele.getText()));
+      data.add(replaceLineBreaksWithSpace(ele.getText()).trim());
     }
     return data;
   }
@@ -1298,6 +1298,17 @@ public class SeleniumUtils extends Utils {
   @Override
   public boolean waitAndCheckIsInVisible(String xpath, Duration duration) {
     return waitAndCheckIsInVisible(By.xpath(xpath), duration);
+  }
+
+  /**
+   * Returns the current page source
+   * 
+   * @return String page source
+   * @author Pabitra Swain (contact.the.sdet@gmail.com)
+   */
+  @Override
+  String getPageSource() {
+    return driver.getPageSource();
   }
 
   /**

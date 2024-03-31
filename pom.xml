@@ -4,7 +4,7 @@
 
     <groupId>io.github.the-sdet</groupId>
     <artifactId>test-automation-toolkit</artifactId>
-    <version>1.0.0</version>
+    <version>1.0.1</version>
     <packaging>jar</packaging>
 
     <name>test-automation-toolkit</name>

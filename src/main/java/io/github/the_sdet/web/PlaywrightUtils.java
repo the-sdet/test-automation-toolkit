@@ -242,7 +242,7 @@ public class PlaywrightUtils extends Utils {
    */
   @Override
   public String getElementTextContent(String xpath) {
-    return getElement(xpath).textContent();
+    return getElement(xpath).textContent().trim();
   }
 
   /**
@@ -258,7 +258,7 @@ public class PlaywrightUtils extends Utils {
     List<String> data = new ArrayList<>();
     List<Locator> elements = getElements(xpath);
     for (Locator element : elements) {
-      data.add(replaceLineBreaksWithSpace(element.textContent()));
+      data.add(replaceLineBreaksWithSpace(element.textContent()).trim());
     }
     return data;
   }
@@ -839,6 +839,17 @@ public class PlaywrightUtils extends Utils {
   @Override
   public boolean waitAndCheckIsInVisible(String xpath, Duration duration) {
     return waitAndCheckIsInVisible(page.locator(xpath), duration);
+  }
+
+  /**
+   * Returns the current page source
+   * 
+   * @return String page source
+   * @author Pabitra Swain (contact.the.sdet@gmail.com)
+   */
+  @Override
+  String getPageSource() {
+    return page.content();
   }
 
   /**
