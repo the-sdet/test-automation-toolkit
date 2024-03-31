@@ -469,6 +469,13 @@ public abstract class Utils<T> {
   abstract boolean waitAndCheckIsInVisible(String xpath, Duration duration);
 
   /**
+   * Returns the current page source
+   * 
+   * @return String page source
+   * @author Pabitra Swain (contact.the.sdet@gmail.com)
+   */
+  abstract String getPageSource();
+  /**
    * Customizes the XPath pattern by replacing placeholder values with the
    * provided values.
    *

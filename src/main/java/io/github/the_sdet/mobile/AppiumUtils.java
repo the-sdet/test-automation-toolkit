@@ -47,6 +47,24 @@ public class AppiumUtils extends SeleniumUtils {
   }
 
   /**
+   * This method performs a click action at provided coordinate using gestures
+   *
+   * @param x
+   *            x coordinate
+   * @param y
+   *            y coordinate
+   * @author Pabitra Swain (contact.the.sdet@gmail.com)
+   */
+  public void advanceClick(int x, int y) {
+    PointerInput finger = new PointerInput(PointerInput.Kind.TOUCH, "finger");
+    Sequence touch = new Sequence(finger, 0);
+    touch.addAction(finger.createPointerMove(Duration.ZERO, PointerInput.Origin.viewport(), x, y))
+        .addAction(finger.createPointerDown(PointerInput.MouseButton.LEFT.asArg()))
+        .addAction(finger.createPointerUp(PointerInput.MouseButton.LEFT.asArg()));
+    driver.perform(singletonList(touch));
+  }
+
+  /**
    * This method performs a click action on an element using gestures
    *
    * @param element
@@ -60,13 +78,7 @@ public class AppiumUtils extends SeleniumUtils {
     Dimension size = webElement.getSize();
     int x = point.getX() + size.getWidth() / 2;
     int y = point.getY() + size.getHeight() / 2;
-
-    PointerInput finger = new PointerInput(PointerInput.Kind.TOUCH, "finger");
-    Sequence touch = new Sequence(finger, 0);
-    touch.addAction(finger.createPointerMove(Duration.ZERO, PointerInput.Origin.viewport(), x, y))
-        .addAction(finger.createPointerDown(PointerInput.MouseButton.LEFT.asArg()))
-        .addAction(finger.createPointerUp(PointerInput.MouseButton.LEFT.asArg()));
-    driver.perform(singletonList(touch));
+    advanceClick(x, y);
   }
 
   /**
@@ -77,19 +89,7 @@ public class AppiumUtils extends SeleniumUtils {
    * @author Pabitra Swain (contact.the.sdet@gmail.com)
    */
   public void advanceClick(String xpath) {
-    waitFor(Duration.ofSeconds(1));
-    WebElement webElement = getElement(xpath);
-    Point point = webElement.getLocation();
-    Dimension size = webElement.getSize();
-    int x = point.getX() + size.getWidth() / 2;
-    int y = point.getY() + size.getHeight() / 2;
-
-    PointerInput finger = new PointerInput(PointerInput.Kind.TOUCH, "finger");
-    Sequence touch = new Sequence(finger, 0);
-    touch.addAction(finger.createPointerMove(Duration.ZERO, PointerInput.Origin.viewport(), x, y))
-        .addAction(finger.createPointerDown(PointerInput.MouseButton.LEFT.asArg()))
-        .addAction(finger.createPointerUp(PointerInput.MouseButton.LEFT.asArg()));
-    driver.perform(singletonList(touch));
+    advanceClick(By.xpath(xpath));
   }
 
   /**
@@ -111,10 +111,7 @@ public class AppiumUtils extends SeleniumUtils {
    * @author Pabitra Swain (contact.the.sdet@gmail.com)
    */
   public void pressBackKey() {
-    Log.info("This method is only applicable for Android...");
-    if (driver instanceof AndroidDriver) {
-      ((PressesKey) driver).pressKey(new KeyEvent(AndroidKey.BACK));
-    }
+    pressBackKey(AndroidKey.BACK);
   }
 
   /**
@@ -132,28 +129,45 @@ public class AppiumUtils extends SeleniumUtils {
   }
 
   /**
+   * Enumeration for swipe directions.
+   *
+   * @author Pabitra Swain (contact.the.sdet@gmail.com)
+   */
+  public enum SWIPE_DIRECTION {
+    /**
+     * Represents the leftward swipe direction.
+     */
+    LEFT,
+
+    /**
+     * Represents the rightward swipe direction.
+     */
+    RIGHT
+  }
+
+  /**
    * Enumeration for scroll/swipe directions.
    *
    * @author Pabitra Swain (contact.the.sdet@gmail.com)
    */
   public enum DIRECTION {
     /**
-     * Represents the downward scroll/swipe direction.
+     * Represents the downward scroll direction.
      */
     DOWN,
 
     /**
-     * Represents the upward scroll/swipe direction.
+     * Represents the upward scroll direction.
      */
     UP,
 
     /**
-     * Represents the leftward scroll/swipe direction.
+     * Represents the leftward swipe direction.
      */
     LEFT,
 
     /**
-     * Represents the rightward scroll/swipe direction.
+     * Represents the rightward swipe direction.
      */
     RIGHT
   }
@@ -260,8 +274,8 @@ public class AppiumUtils extends SeleniumUtils {
    *            actual slider xpath
    * @author Pabitra Swain (contact.the.sdet@gmail.com)
    */
-  public void swipeElementInsideAContainer(String containerXpath, String sliderXpath) {
-    swipeElementInsideAContainer(By.xpath(containerXpath), By.xpath(sliderXpath));
+  public void swipeElementInsideAContainer(String containerXpath, String sliderXpath, SWIPE_DIRECTION direction) {
+    swipeElementInsideAContainer(By.xpath(containerXpath), By.xpath(sliderXpath), direction);
   }
 
   /**
@@ -273,16 +287,22 @@ public class AppiumUtils extends SeleniumUtils {
    *            actual slider
    * @author Pabitra Swain (contact.the.sdet@gmail.com)
    */
-  public void swipeElementInsideAContainer(By container, By slider) {
-    int containerWidth = driver.findElement(container).getSize().getWidth();
-    WebElement swipeButton = driver.findElement(slider);
-    Dimension size = swipeButton.getSize();
+  public void swipeElementInsideAContainer(By container, By slider, SWIPE_DIRECTION direction) {
+    int containerWidth = getElement(container).getSize().getWidth();
+    WebElement sliderButton = getElement(slider);
+    Dimension size = sliderButton.getSize();
     int middleX = size.getWidth() / 2;
     int middleY = size.getHeight() / 2;
-    Point source = swipeButton.getLocation();
-    int startX = source.getX() + middleX;
+    Point source = sliderButton.getLocation();
+    int startX, endX;
     int startY = source.getY() + middleY;
-    int endX = startX + containerWidth;
+    if (direction == SWIPE_DIRECTION.RIGHT) {
+      startX = source.getX() + middleX;
+      endX = startX + containerWidth;
+    } else {
+      startX = source.getX() + middleX;
+      endX = source.getX() - containerWidth;
+    }
     swipe(startX, startY, endX, Duration.ofMillis(500));
   }
 
@@ -309,9 +329,9 @@ public class AppiumUtils extends SeleniumUtils {
     int width = driver.manage().window().getSize().getWidth();
 
     int startY = height / 2;
-    int startX = (int) (width * 0.8); // Swipe starts from 80% of the width
-    int endX = (int) (width * 0.2); // Swipe ends at 20% of the width
-    swipe(startX, startY, endX, Duration.ofMillis(600));
+    int startX = (int) (width * 0.9); // Swipe starts from 90% of the width
+    int endX = (int) (width * 0.1); // Swipe ends at 10% of the width
+    swipe(startX, startY, endX, Duration.ofMillis(500));
   }
 
   /**
@@ -324,9 +344,9 @@ public class AppiumUtils extends SeleniumUtils {
     int width = driver.manage().window().getSize().getWidth();
 
     int startY = height / 2;
-    int startX = (int) (width * 0.2); // Swipe starts from 20% of the width
-    int endX = (int) (width * 0.8); // Swipe ends at 80% of the width
-    swipe(startX, startY, endX, Duration.ofMillis(600));
+    int startX = (int) (width * 0.1); // Swipe starts from 10% of the width
+    int endX = (int) (width * 0.9); // Swipe ends at 90% of the width
+    swipe(startX, startY, endX, Duration.ofMillis(500));
   }
 
   /**
@@ -411,8 +431,8 @@ public class AppiumUtils extends SeleniumUtils {
 
     WebElement element = driver.findElement(elementLocator);
 
-    int startX = (int) (element.getLocation().getX() + element.getSize().getWidth() * startPercent);
-    int endX = (int) (element.getLocation().getX() + element.getSize().getWidth() * endPercent);
+    int startX = (int) (element.getLocation().getX() + element.getSize().getWidth() * (startPercent / 100));
+    int endX = (int) (element.getLocation().getX() + element.getSize().getWidth() * (endPercent / 100));
     int centerY = element.getLocation().getY() + element.getSize().getHeight() / 2;
 
     swipe(startX, centerY, endX, duration);
@@ -638,7 +658,7 @@ public class AppiumUtils extends SeleniumUtils {
    * @author Pabitra Swain (contact.the.sdet@gmail.com)
    */
   public void swipeRight(By element) {
-    swipe(element, 0.01, 0.09, Duration.ofMillis(500));
+    swipe(element, 10, 90, Duration.ofMillis(500));
   }
 
   /**
@@ -649,7 +669,7 @@ public class AppiumUtils extends SeleniumUtils {
    * @author Pabitra Swain (contact.the.sdet@gmail.com)
    */
   public void swipeRight(String xpath) {
-    swipe(By.xpath(xpath), 0.01, 0.09, Duration.ofMillis(500));
+    swipe(By.xpath(xpath), 10, 90, Duration.ofMillis(500));
   }
 
   /**
@@ -660,7 +680,7 @@ public class AppiumUtils extends SeleniumUtils {
    * @author Pabitra Swain (contact.the.sdet@gmail.com)
    */
   public void swipeLeft(String xpath) {
-    swipe(By.xpath(xpath), 0.09, 0.01, Duration.ofMillis(500));
+    swipe(By.xpath(xpath), 90, 10, Duration.ofMillis(500));
   }
 
   /**
@@ -671,7 +691,7 @@ public class AppiumUtils extends SeleniumUtils {
    * @author Pabitra Swain (contact.the.sdet@gmail.com)
    */
   public void swipeLeft(By element) {
-    swipe(element, 0.09, 0.01, Duration.ofMillis(500));
+    swipe(element, 90, 10, Duration.ofMillis(500));
   }
 
   /**
