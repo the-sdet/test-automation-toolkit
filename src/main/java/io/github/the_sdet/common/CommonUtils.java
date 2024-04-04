@@ -2,7 +2,11 @@ package io.github.the_sdet.common;
 
 import io.github.the_sdet.logger.Log;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.Duration;
+import java.util.Date;
 
 /**
  * This class handles various common Utilities and Helper methods
@@ -71,5 +75,64 @@ public class CommonUtils {
       return null;
     }
     return input.replaceAll("\\r?\\n", " ");
+  }
+
+  /**
+   * Enum representing the status of a test scenario.
+   * <p>
+   * This enum defines two possible statuses: PASS and FAIL.
+   * </p>
+   *
+   * @author Pabitra Swain (contact.the.sdet@gmail.com)
+   */
+  public enum STATUS {
+    /**
+     * Represents status PASS.
+     */
+    PASS("PASS"),
+
+    /**
+     * Represents status FAIL.
+     */
+    FAIL("FAIL");
+
+    /**
+     * The status string.
+     */
+    public final String status;
+
+    /**
+     * Constructs a STATUS enum with the given status string.
+     *
+     * @param status
+     *            the status string
+     */
+    STATUS(String status) {
+      this.status = status;
+    }
+  }
+
+  /**
+   * Format a date string from one format to another.
+   *
+   * @param inputDateStr
+   *            The input date string.
+   * @param inputDateFormat
+   *            The input date format.
+   * @param outputDateFormat
+   *            The output date format.
+   * @return the formatted date string.
+   * @author Pabitra Swain (contact.the.sdet@gmail.com)
+   */
+  public static String formatDate(String inputDateStr, String inputDateFormat, String outputDateFormat) {
+    DateFormat inputFormatter = new SimpleDateFormat(inputDateFormat);
+    DateFormat outputFormatter = new SimpleDateFormat(outputDateFormat);
+    try {
+      Date inputDate = inputFormatter.parse(inputDateStr);
+      return outputFormatter.format(inputDate);
+    } catch (ParseException e) {
+      Log.error("Parse Exception...", e);
+      return null;
+    }
   }
 }

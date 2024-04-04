@@ -812,6 +812,7 @@ public class SeleniumUtils extends Utils {
   public byte[] getElementScreenshotAsByte(String xpath) {
     return getElement(xpath).getScreenshotAs(OutputType.BYTES);
   }
+
   /**
    * Retrieves the screenshot of the element identified by the given XPath as a
    * byte array.
@@ -824,6 +825,7 @@ public class SeleniumUtils extends Utils {
   public byte[] getElementScreenshotAsByte(By element) {
     return getElement(element).getScreenshotAs(OutputType.BYTES);
   }
+
   /**
    * Retrieves the full-page screenshot as a byte array.
    *
@@ -1026,6 +1028,7 @@ public class SeleniumUtils extends Utils {
   public void pressTabOnElement(String xpath) {
     actions.sendKeys(getElement(xpath), Keys.TAB).perform();
   }
+
   /**
    * Simulates pressing the Tab key on the element identified by the given XPath.
    *
@@ -1048,6 +1051,7 @@ public class SeleniumUtils extends Utils {
   public void pressEnterOnElement(By element) {
     actions.sendKeys(getElement(element), Keys.ENTER).perform();
   }
+
   /**
    * Simulates pressing the Enter key on the element identified by the given
    * XPath.
@@ -1302,7 +1306,7 @@ public class SeleniumUtils extends Utils {
 
   /**
    * Returns the current page source
-   * 
+   *
    * @return String page source
    * @author Pabitra Swain (contact.the.sdet@gmail.com)
    */
@@ -1685,5 +1689,26 @@ public class SeleniumUtils extends Utils {
    */
   public boolean scrollAndClick(String xpath) {
     return scrollAndClick(By.xpath(xpath));
+  }
+
+  /**
+   * Finds a web element using multiple locators.
+   *
+   * @param xPaths
+   *            The XPaths of the elements to search for.
+   * @return The WebElement found.
+   * @throws NoSuchElementException
+   *             if the element is not found for any of the provided locators.
+   * @author Pabitra Swain (contact.the.sdet@gmail.com)
+   */
+  public WebElement findElementByMultipleLocators(String... xPaths) {
+    for (String xpath : xPaths) {
+      try {
+        return getElement(By.xpath(xpath));
+      } catch (org.openqa.selenium.NoSuchElementException e) {
+        Log.info("No element found for Xpath: " + xpath);
+      }
+    }
+    throw new NoSuchElementException("Element NOT found for any of the provided locators...");
   }
 }

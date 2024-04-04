@@ -272,6 +272,8 @@ public class AppiumUtils extends SeleniumUtils {
    *            slider container xpath
    * @param sliderXpath
    *            actual slider xpath
+   * @param direction
+   *            Swipe Direction
    * @author Pabitra Swain (contact.the.sdet@gmail.com)
    */
   public void swipeElementInsideAContainer(String containerXpath, String sliderXpath, SWIPE_DIRECTION direction) {
@@ -285,6 +287,8 @@ public class AppiumUtils extends SeleniumUtils {
    *            slider container
    * @param slider
    *            actual slider
+   * @param direction
+   *            Swipe Direction
    * @author Pabitra Swain (contact.the.sdet@gmail.com)
    */
   public void swipeElementInsideAContainer(By container, By slider, SWIPE_DIRECTION direction) {
