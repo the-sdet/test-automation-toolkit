@@ -122,7 +122,7 @@ public class JSONUtils {
   public static List<String> getElementsFromJsonString(String jsonString, String... elementPaths) {
     List<String> values = new ArrayList<>();
     for (String elementPath : elementPaths) {
-      values.add(getElementFromJsonString(jsonString, elementPath.trim()));
+      values.add(getElementValueFromJsonString(jsonString, elementPath.trim()));
     }
     return values;
   }
@@ -141,7 +141,7 @@ public class JSONUtils {
   public static Map<String, String> getElementsFromJsonString(String jsonString, Map<String, String> elementPaths) {
     Map<String, String> values = new HashMap<>();
     for (Map.Entry<String, String> element : elementPaths.entrySet()) {
-      values.put(element.getKey(), getElementFromJsonString(jsonString, element.getValue().trim()));
+      values.put(element.getKey(), getElementValueFromJsonString(jsonString, element.getValue().trim()));
     }
     return values;
   }

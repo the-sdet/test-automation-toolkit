@@ -1953,7 +1953,7 @@ public class SeleniumUtils extends Utils {
     for (String xpath : xPaths) {
       try {
         return getElement(By.xpath(xpath));
-      } catch (org.openqa.selenium.NoSuchElementException e) {
+      } catch (NoSuchElementException e) {
         Log.info("No element found for Xpath: " + xpath);
       }
     }
