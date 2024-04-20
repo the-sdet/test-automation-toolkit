@@ -1076,6 +1076,27 @@ public class PlaywrightUtils extends Utils {
   }
 
   /**
+   * Finds a web element using multiple locators.
+   *
+   * @param xPaths
+   *            The XPaths of the elements to search for.
+   * @return The WebElement found.
+   * @throws NoSuchElementException
+   *             if the element is not found for any of the provided locators.
+   * @author Pabitra Swain (contact.the.sdet@gmail.com)
+   */
+  public Locator findElementByMultipleLocators(String... xPaths) {
+    for (String xpath : xPaths) {
+      try {
+        return getElement(xpath);
+      } catch (org.openqa.selenium.NoSuchElementException e) {
+        Log.info("No element found for Xpath: " + xpath);
+      }
+    }
+    throw new NoSuchElementException("Element NOT found for any of the provided locators...");
+  }
+
+  /**
    * Waits for the element identified by XPath to be present within a default
    * duration of 5 seconds.
    *
