@@ -126,6 +126,32 @@ public abstract class Utils<T> {
   abstract String getElementTextContent(String xpath);
 
   /**
+   * Retrieves the text content of WebElement by Xpath.
+   *
+   * @param xpath
+   *            The XPath of the element
+   * @param waitForElement
+   *            true if wait for the element
+   * @return The text content of WebElement
+   * @author Pabitra Swain (contact.the.sdet@gmail.com)
+   */
+  abstract String getElementTextContent(String xpath, boolean waitForElement);
+
+  /**
+   * Retrieves the text content of WebElement by Xpath.
+   *
+   * @param xpath
+   *            The XPath of the element
+   * @param waitForElement
+   *            true if wait for the element
+   * @param duration
+   *            maximum wait
+   * @return The text content of WebElement
+   * @author Pabitra Swain (contact.the.sdet@gmail.com)
+   */
+  abstract String getElementTextContent(String xpath, boolean waitForElement, Duration duration);
+
+  /**
    * Retrieves the text content of WebElements by Xpath.
    *
    * @param xpath
@@ -160,6 +186,42 @@ public abstract class Utils<T> {
    * @author Pabitra Swain (contact.the.sdet@gmail.com)
    */
   abstract List<String> getElementsTextContent(String xpath, boolean waitForFirstElement, Duration duration);
+
+  /**
+   * Retrieves the number of elements by the specified locator
+   *
+   * @param xpath
+   *            The XPath of the element
+   * @return The element count
+   * @author Pabitra Swain (contact.the.sdet@gmail.com)
+   */
+  abstract int getElementsCount(String xpath);
+
+  /**
+   * Retrieves the number of elements by the specified locator
+   *
+   * @param xpath
+   *            The XPath of the element
+   * @param waitForFirstElement
+   *            true if wait for first element
+   * @return The element count
+   * @author Pabitra Swain (contact.the.sdet@gmail.com)
+   */
+  abstract int getElementsCount(String xpath, boolean waitForFirstElement);
+
+  /**
+   * Retrieves the number of elements by the specified locator
+   *
+   * @param xpath
+   *            The XPath of the element
+   * @param waitForFirstElement
+   *            true if wait for first element
+   * @param duration
+   *            maximum wait
+   * @return The element count
+   * @author Pabitra Swain (contact.the.sdet@gmail.com)
+   */
+  abstract int getElementsCount(String xpath, boolean waitForFirstElement, Duration duration);
 
   /**
    * Clicks on the element identified by the specified XPath using JavaScript.
@@ -467,7 +529,37 @@ public abstract class Utils<T> {
    * @author Pabitra Swain (contact.the.sdet@gmail.com)
    */
   abstract boolean waitAndCheckIsInVisible(String xpath, Duration duration);
+  /**
+   * Waits for the element identified by XPath to become visible.
+   *
+   * @param xpath
+   *            XPath identifying the element
+   * @param duration
+   *            maximum duration to wait
+   * @author Pabitra Swain (contact.the.sdet@gmail.com)
+   */
+  abstract void waitForElementToBeVisible(String xpath, Duration duration);
+  /**
+   * Waits for the element identified by XPath to become invisible.
+   *
+   * @param xpath
+   *            XPath identifying the element
+   * @param duration
+   *            maximum duration to wait
+   * @author Pabitra Swain (contact.the.sdet@gmail.com)
+   */
+  abstract void waitForElementToBeInvisible(String xpath, Duration duration);
 
+  /**
+   * Waits for the element identified by XPath to become clickable.
+   *
+   * @param xpath
+   *            XPath identifying the element
+   * @param duration
+   *            maximum duration to wait
+   * @author Pabitra Swain (contact.the.sdet@gmail.com)
+   */
+  abstract void waitForElementToBeClickable(String xpath, Duration duration);
   /**
    * Returns the current page source
    * 

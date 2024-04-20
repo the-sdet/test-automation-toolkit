@@ -5,8 +5,10 @@ import io.github.the_sdet.logger.Log;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.text.SimpleDateFormat;
 import java.time.Duration;
 import java.util.Date;
+import java.util.Calendar;
 
 /**
  * This class handles various common Utilities and Helper methods
@@ -19,6 +21,20 @@ public class CommonUtils {
    * Represents a String without content.
    */
   public static String EMPTY_STRING = "";
+  /**
+   * Represents the String '.com'
+   */
+  public static String DOT_COM = ".com";
+  /**
+   * Represents the String '@'
+   */
+  public static String AT = "@";
+
+  /**
+   * Holds the generated ten-digit number by method
+   * getPhoneNumberBasedOnTimestamp()
+   */
+  public static String generatedTenDigitNumber = null;
 
   /**
    * This method extracts numeric value from a string. E.g., -$300.00 will return
@@ -134,5 +150,44 @@ public class CommonUtils {
       Log.error("Parse Exception...", e);
       return null;
     }
+  }
+
+  /**
+   * Generates a ten-digit phone number based on timestamp using format ddMMHHmmss
+   *
+   * @return ten-digit number
+   * @author Pabitra Swain (pabitra.swain.work@gmail.com)
+   */
+  public String getPhoneNumberBasedOnTimestamp() {
+    Calendar calendar = Calendar.getInstance();
+
+    // Format the date and time components as strings
+    SimpleDateFormat dateFormat = new SimpleDateFormat("ddMMHHmmss");
+    String formattedDate = dateFormat.format(calendar.getTime());
+
+    // Concatenate the formatted date components to generate a 10-digit number
+    String tenDigitNumber = formattedDate.substring(0, 2) + formattedDate.substring(2, 4)
+        + formattedDate.substring(4, 6) + formattedDate.substring(6, 8) + formattedDate.substring(8, 10);
+    Log.info("Generated Phone Number: " + tenDigitNumber);
+    generatedTenDigitNumber = tenDigitNumber;
+    return tenDigitNumber;
+  }
+
+  /**
+   * Generates an email based on timestamp using format ddMMHHmmss E.g., if prefix
+   * is test and domain is gmail, it will generate - test20041149@gmail.com
+   *
+   * @param prefix
+   *            prefix of email
+   * @param domain
+   *            domain of email
+   * @return ten-digit number
+   * @author Pabitra Swain (pabitra.swain.work@gmail.com)
+   */
+  public String getEmailBasedOnTimestamp(String prefix, String domain) {
+    if (generatedTenDigitNumber == null)
+      return prefix + getPhoneNumberBasedOnTimestamp() + AT + domain + ".com";
+    else
+      return prefix + generatedTenDigitNumber + AT + domain + DOT_COM;
   }
 }

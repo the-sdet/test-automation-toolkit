@@ -32,7 +32,7 @@ To use Test Automation Toolkit simply add following dependency to your Maven pro
 <dependency>
     <groupId>io.github.the-sdet</groupId>
     <artifactId>test-automation-toolkit</artifactId>
-    <version>1.0.2</version>
+    <version>1.0.3</version>
 </dependency>
 ```
 

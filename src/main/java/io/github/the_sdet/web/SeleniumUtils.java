@@ -370,6 +370,80 @@ public class SeleniumUtils extends Utils {
   }
 
   /**
+   * Retrieves the text content of WebElement by Xpath.
+   *
+   * @param xpath
+   *            The XPath of the element
+   * @param waitForElement
+   *            true if wait for the element
+   * @return The text content of WebElement
+   * @author Pabitra Swain (contact.the.sdet@gmail.com)
+   */
+  @Override
+  String getElementTextContent(String xpath, boolean waitForElement) {
+    if (waitForElement) {
+      return waitAndFindElement(xpath).getText().trim();
+    } else
+      return getElementTextContent(xpath);
+  }
+
+  /**
+   * Retrieves the text content of WebElement by Xpath.
+   *
+   * @param element
+   *            The locator of the element
+   * @param waitForElement
+   *            true if wait for the element
+   * @return The text content of WebElement
+   * @author Pabitra Swain (contact.the.sdet@gmail.com)
+   */
+  String getElementTextContent(By element, boolean waitForElement) {
+    if (waitForElement) {
+      return waitAndFindElement(element).getText().trim();
+    } else
+      return getElementTextContent(element);
+  }
+
+  /**
+   * Retrieves the text content of WebElement by Xpath.
+   *
+   * @param xpath
+   *            The XPath of the element
+   * @param waitForElement
+   *            true if wait for the element
+   * @param duration
+   *            maximum wait
+   * @return The text content of WebElement
+   * @author Pabitra Swain (contact.the.sdet@gmail.com)
+   */
+  @Override
+  String getElementTextContent(String xpath, boolean waitForElement, Duration duration) {
+    if (waitForElement) {
+      return waitAndFindElement(xpath, duration).getText().trim();
+    } else
+      return getElementTextContent(xpath);
+  }
+
+  /**
+   * Retrieves the text content of WebElement by Xpath.
+   *
+   * @param element
+   *            The locator of the element
+   * @param waitForElement
+   *            true if wait for the element
+   * @param duration
+   *            maximum wait
+   * @return The text content of WebElement
+   * @author Pabitra Swain (contact.the.sdet@gmail.com)
+   */
+  String getElementTextContent(By element, boolean waitForElement, Duration duration) {
+    if (waitForElement) {
+      return waitAndFindElement(element, duration).getText().trim();
+    } else
+      return getElementTextContent(element);
+  }
+
+  /**
    * Retrieves the text content of WebElements by Xpath.
    *
    * @param xpath
@@ -488,6 +562,105 @@ public class SeleniumUtils extends Utils {
         return new ArrayList<>();
     else
       return getElementsTextContent(element);
+  }
+
+  /**
+   * Retrieves the number of elements by the specified locator
+   *
+   * @param xpath
+   *            The XPath of the element
+   * @return The element count
+   * @author Pabitra Swain (contact.the.sdet@gmail.com)
+   */
+  @Override
+  int getElementsCount(String xpath) {
+    return getElements(xpath).size();
+  }
+
+  /**
+   * Retrieves the number of elements by the specified locator
+   *
+   * @param xpath
+   *            The XPath of the element
+   * @param waitForFirstElement
+   *            true if wait for first element
+   * @return The element count
+   * @author Pabitra Swain (contact.the.sdet@gmail.com)
+   */
+  @Override
+  int getElementsCount(String xpath, boolean waitForFirstElement) {
+    if (waitForFirstElement) {
+      return getElements(xpath, true).size();
+    } else
+      return getElementsCount(xpath);
+  }
+
+  /**
+   * Retrieves the number of elements by the specified locator
+   *
+   * @param xpath
+   *            The XPath of the element
+   * @param waitForFirstElement
+   *            true if wait for first element
+   * @param duration
+   *            maximum wait
+   * @return The element count
+   * @author Pabitra Swain (contact.the.sdet@gmail.com)
+   */
+  @Override
+  int getElementsCount(String xpath, boolean waitForFirstElement, Duration duration) {
+    if (waitForFirstElement) {
+      return getElements(xpath, true, duration).size();
+    } else
+      return getElementsCount(xpath);
+  }
+
+  /**
+   * Retrieves the number of elements by the specified locator
+   *
+   * @param element
+   *            The locator of the element
+   * @return The element count
+   * @author Pabitra Swain (contact.the.sdet@gmail.com)
+   */
+  int getElementsCount(By element) {
+    return getElements(element).size();
+  }
+
+  /**
+   * Retrieves the number of elements by the specified locator
+   *
+   * @param element
+   *            The locator of the element
+   * @param waitForFirstElement
+   *            true if wait for first element
+   * @return The element count
+   * @author Pabitra Swain (contact.the.sdet@gmail.com)
+   */
+  int getElementsCount(By element, boolean waitForFirstElement) {
+    if (waitForFirstElement) {
+      return getElements(element, true).size();
+    } else
+      return getElementsCount(element);
+  }
+
+  /**
+   * Retrieves the number of elements by the specified locator
+   *
+   * @param element
+   *            The locator of the element
+   * @param waitForFirstElement
+   *            true if wait for first element
+   * @param duration
+   *            maximum wait
+   * @return The element count
+   * @author Pabitra Swain (contact.the.sdet@gmail.com)
+   */
+  int getElementsCount(By element, boolean waitForFirstElement, Duration duration) {
+    if (waitForFirstElement) {
+      return getElements(element, true, duration).size();
+    } else
+      return getElementsCount(element);
   }
 
   /**
@@ -889,8 +1062,7 @@ public class SeleniumUtils extends Utils {
    * @param xpath
    *            The XPath of the element to click.
    * @param duration
-   *            The maximum time to wait for the element to be clickable, in
-   *            seconds.
+   *            The maximum time to wait for the element to be clickable
    * @author Pabitra Swain (contact.the.sdet@gmail.com)
    */
   @Override
@@ -907,15 +1079,13 @@ public class SeleniumUtils extends Utils {
    *
    * @param element
    *            The locator of the element to click.
-   * @param seconds
-   *            The maximum time to wait for the element to be clickable, in
-   *            seconds.
+   * @param duration
+   *            The maximum time to wait for the element to be clickable
    * @author Pabitra Swain (contact.the.sdet@gmail.com)
    */
-  public void waitAndClick(By element, int seconds) {
+  public void waitAndClick(By element, Duration duration) {
     try {
-      click(new WebDriverWait(driver, Duration.ofSeconds(seconds))
-          .until(ExpectedConditions.elementToBeClickable(element)));
+      click(new WebDriverWait(driver, duration).until(ExpectedConditions.elementToBeClickable(element)));
     } catch (TimeoutException e) {
       Log.error("Couldn't find element within specified time period. Xpath: " + element, e);
     }
@@ -1239,8 +1409,7 @@ public class SeleniumUtils extends Utils {
    */
   public boolean waitAndCheckIsVisible(By element, Duration duration) {
     try {
-      WebDriverWait wait = new WebDriverWait(driver, duration);
-      wait.until(ExpectedConditions.visibilityOfElementLocated(element));
+      new WebDriverWait(driver, duration).until(ExpectedConditions.visibilityOfElementLocated(element));
       Log.info("Element is Visible: " + element);
       return true;
     } catch (Exception e) {
@@ -1278,8 +1447,7 @@ public class SeleniumUtils extends Utils {
    */
   public boolean waitAndCheckIsClickable(By element, Duration duration) {
     try {
-      WebDriverWait wait = new WebDriverWait(driver, duration);
-      wait.until(ExpectedConditions.elementToBeClickable(element));
+      new WebDriverWait(driver, duration).until(ExpectedConditions.elementToBeClickable(element));
       Log.info("Element is Clickable: " + element);
       return true;
     } catch (Exception e) {
@@ -1302,6 +1470,87 @@ public class SeleniumUtils extends Utils {
   @Override
   public boolean waitAndCheckIsInVisible(String xpath, Duration duration) {
     return waitAndCheckIsInVisible(By.xpath(xpath), duration);
+  }
+
+  /**
+   * Waits for the element identified by XPath to become visible.
+   *
+   * @param xpath
+   *            XPath identifying the element
+   * @param duration
+   *            maximum duration to wait
+   * @author Pabitra Swain (contact.the.sdet@gmail.com)
+   */
+  @Override
+  void waitForElementToBeVisible(String xpath, Duration duration) {
+    waitForElementToBeVisible(By.xpath(xpath), duration);
+  }
+
+  /**
+   * Waits for the element identified by XPath to become invisible.
+   *
+   * @param xpath
+   *            XPath identifying the element
+   * @param duration
+   *            maximum duration to wait
+   * @author Pabitra Swain (contact.the.sdet@gmail.com)
+   */
+  @Override
+  void waitForElementToBeInvisible(String xpath, Duration duration) {
+    waitForElementToBeInvisible(By.xpath(xpath), duration);
+  }
+
+  /**
+   * Waits for the element identified by XPath to become clickable.
+   *
+   * @param xpath
+   *            XPath identifying the element
+   * @param duration
+   *            maximum duration to wait
+   * @author Pabitra Swain (contact.the.sdet@gmail.com)
+   */
+  @Override
+  void waitForElementToBeClickable(String xpath, Duration duration) {
+    waitForElementToBeClickable(By.xpath(xpath), duration);
+  }
+
+  /**
+   * Waits for the element identified by XPath to become visible.
+   *
+   * @param locator
+   *            the element locator
+   * @param duration
+   *            maximum duration to wait
+   * @author Pabitra Swain (contact.the.sdet@gmail.com)
+   */
+  void waitForElementToBeVisible(By locator, Duration duration) {
+    new WebDriverWait(driver, duration).until(ExpectedConditions.visibilityOfElementLocated(locator));
+  }
+
+  /**
+   * Waits for the element identified by XPath to become invisible.
+   *
+   * @param locator
+   *            the element locator
+   * @param duration
+   *            maximum duration to wait
+   * @author Pabitra Swain (contact.the.sdet@gmail.com)
+   */
+  void waitForElementToBeInvisible(By locator, Duration duration) {
+    new WebDriverWait(driver, duration).until(ExpectedConditions.invisibilityOfElementLocated(locator));
+  }
+
+  /**
+   * Waits for the element identified by XPath to become clickable.
+   *
+   * @param locator
+   *            the element locator
+   * @param duration
+   *            maximum duration to wait
+   * @author Pabitra Swain (contact.the.sdet@gmail.com)
+   */
+  void waitForElementToBeClickable(By locator, Duration duration) {
+    new WebDriverWait(driver, duration).until(ExpectedConditions.elementToBeClickable(locator));
   }
 
   /**
@@ -1328,12 +1577,11 @@ public class SeleniumUtils extends Utils {
    */
   public boolean waitAndCheckIsInVisible(By element, Duration duration) {
     try {
-      WebDriverWait wait = new WebDriverWait(driver, duration);
-      wait.until(ExpectedConditions.elementToBeClickable(element));
-      Log.info("Element is clickable: " + element.toString());
+      new WebDriverWait(driver, duration).until(ExpectedConditions.invisibilityOfElementLocated(element));
+      Log.info("Element is Invisible: " + element.toString());
       return true;
     } catch (Exception e) {
-      Log.info("Element is NOT clickable...");
+      Log.info("Element is visible...");
       return false;
     }
   }
@@ -1705,7 +1953,7 @@ public class SeleniumUtils extends Utils {
     for (String xpath : xPaths) {
       try {
         return getElement(By.xpath(xpath));
-      } catch (org.openqa.selenium.NoSuchElementException e) {
+      } catch (NoSuchElementException e) {
         Log.info("No element found for Xpath: " + xpath);
       }
     }

@@ -246,6 +246,44 @@ public class PlaywrightUtils extends Utils {
   }
 
   /**
+   * Retrieves the text content of WebElement by Xpath.
+   *
+   * @param xpath
+   *            The XPath of the element
+   * @param waitForElement
+   *            true if wait for the element
+   * @return The text content of WebElement
+   * @author Pabitra Swain (contact.the.sdet@gmail.com)
+   */
+  @Override
+  String getElementTextContent(String xpath, boolean waitForElement) {
+    if (waitForElement) {
+      return waitAndFindElement(xpath).textContent().trim();
+    } else
+      return getElementTextContent(xpath);
+  }
+
+  /**
+   * Retrieves the text content of WebElement by Xpath.
+   *
+   * @param xpath
+   *            The XPath of the element
+   * @param waitForElement
+   *            true if wait for the element
+   * @param duration
+   *            maximum wait
+   * @return The text content of WebElement
+   * @author Pabitra Swain (contact.the.sdet@gmail.com)
+   */
+  @Override
+  String getElementTextContent(String xpath, boolean waitForElement, Duration duration) {
+    if (waitForElement) {
+      return waitAndFindElement(xpath, duration).textContent().trim();
+    } else
+      return getElementTextContent(xpath);
+  }
+
+  /**
    * Retrieves the text content of WebElements by Xpath.
    *
    * @param xpath
@@ -305,6 +343,57 @@ public class PlaywrightUtils extends Utils {
         return new ArrayList<>();
     else
       return getElementsTextContent(xpath);
+  }
+
+  /**
+   * Retrieves the number of elements by the specified locator
+   *
+   * @param xpath
+   *            The XPath of the element
+   * @return The element count
+   * @author Pabitra Swain (contact.the.sdet@gmail.com)
+   */
+  @Override
+  int getElementsCount(String xpath) {
+    return getElements(xpath).size();
+  }
+
+  /**
+   * Retrieves the number of elements by the specified locator
+   *
+   * @param xpath
+   *            The XPath of the element
+   * @param waitForFirstElement
+   *            true if wait for first element
+   * @return The element count
+   * @author Pabitra Swain (contact.the.sdet@gmail.com)
+   */
+  @Override
+  int getElementsCount(String xpath, boolean waitForFirstElement) {
+    if (waitForFirstElement) {
+      return getElements(xpath, true).size();
+    } else
+      return getElements(xpath).size();
+  }
+
+  /**
+   * Retrieves the number of elements by the specified locator
+   *
+   * @param xpath
+   *            The XPath of the element
+   * @param waitForFirstElement
+   *            true if wait for first element
+   * @param duration
+   *            maximum wait
+   * @return The element count
+   * @author Pabitra Swain (contact.the.sdet@gmail.com)
+   */
+  @Override
+  int getElementsCount(String xpath, boolean waitForFirstElement, Duration duration) {
+    if (waitForFirstElement) {
+      return getElements(xpath, true, duration).size();
+    } else
+      return getElements(xpath).size();
   }
 
   /**
@@ -788,9 +877,15 @@ public class PlaywrightUtils extends Utils {
    * @author Pabitra Swain (contact.the.sdet@gmail.com)
    */
   public boolean waitAndCheckIsVisible(Locator element, Duration duration) {
-    element.waitFor(
-        new Locator.WaitForOptions().setState(WaitForSelectorState.VISIBLE).setTimeout(duration.toMillis()));
-    return element.isVisible();
+    try {
+      element.waitFor(new Locator.WaitForOptions().setState(WaitForSelectorState.VISIBLE)
+          .setTimeout(duration.toMillis()));
+      Log.info("Element is visible...");
+      return true;
+    } catch (Exception e) {
+      Log.info("Element is NOT visible...");
+      return false;
+    }
   }
 
   /**
@@ -821,8 +916,14 @@ public class PlaywrightUtils extends Utils {
    * @author Pabitra Swain (contact.the.sdet@gmail.com)
    */
   public boolean waitAndCheckIsClickable(Locator element, Duration duration) {
-    element.waitFor(new Locator.WaitForOptions().setTimeout(duration.toMillis()));
-    return element.isEnabled();
+    try {
+      element.waitFor(new Locator.WaitForOptions().setTimeout(duration.toMillis()));
+      Log.info("Element is clickable...");
+      return true;
+    } catch (Exception e) {
+      Log.info("Element is NOT clickable...");
+      return false;
+    }
   }
 
   /**
@@ -839,6 +940,89 @@ public class PlaywrightUtils extends Utils {
   @Override
   public boolean waitAndCheckIsInVisible(String xpath, Duration duration) {
     return waitAndCheckIsInVisible(page.locator(xpath), duration);
+  }
+
+  /**
+   * Waits for the element identified by XPath to become visible.
+   *
+   * @param xpath
+   *            XPath identifying the element
+   * @param duration
+   *            maximum duration to wait
+   * @author Pabitra Swain (contact.the.sdet@gmail.com)
+   */
+  @Override
+  void waitForElementToBeVisible(String xpath, Duration duration) {
+    waitForElementToBeVisible(page.locator(xpath), duration);
+  }
+
+  /**
+   * Waits for the element identified by XPath to become invisible.
+   *
+   * @param xpath
+   *            XPath identifying the element
+   * @param duration
+   *            maximum duration to wait
+   * @author Pabitra Swain (contact.the.sdet@gmail.com)
+   */
+  @Override
+  void waitForElementToBeInvisible(String xpath, Duration duration) {
+    waitForElementToBeInvisible(page.locator(xpath), duration);
+  }
+
+  /**
+   * Waits for the element identified by XPath to become clickable.
+   *
+   * @param xpath
+   *            XPath identifying the element
+   * @param duration
+   *            maximum duration to wait
+   * @author Pabitra Swain (contact.the.sdet@gmail.com)
+   */
+  @Override
+  void waitForElementToBeClickable(String xpath, Duration duration) {
+    waitForElementToBeClickable(page.locator(xpath), duration);
+  }
+
+  /**
+   * Waits for the element identified by XPath to become visible.
+   *
+   * @param locator
+   *            the element locator
+   * @param duration
+   *            maximum duration to wait
+   * @author Pabitra Swain (contact.the.sdet@gmail.com)
+   */
+  void waitForElementToBeVisible(Locator locator, Duration duration) {
+    locator.waitFor(
+        new Locator.WaitForOptions().setState(WaitForSelectorState.VISIBLE).setTimeout(duration.toMillis()));
+  }
+
+  /**
+   * Waits for the element identified by XPath to become invisible.
+   *
+   * @param locator
+   *            the element locator
+   * @param duration
+   *            maximum duration to wait
+   * @author Pabitra Swain (contact.the.sdet@gmail.com)
+   */
+  void waitForElementToBeInvisible(Locator locator, Duration duration) {
+    locator.waitFor(
+        new Locator.WaitForOptions().setState(WaitForSelectorState.HIDDEN).setTimeout(duration.toMillis()));
+  }
+
+  /**
+   * Waits for the element identified by XPath to become clickable.
+   *
+   * @param locator
+   *            the element locator
+   * @param duration
+   *            maximum duration to wait
+   * @author Pabitra Swain (contact.the.sdet@gmail.com)
+   */
+  void waitForElementToBeClickable(Locator locator, Duration duration) {
+    locator.waitFor(new Locator.WaitForOptions().setTimeout(duration.toMillis()));
   }
 
   /**
@@ -864,14 +1048,20 @@ public class PlaywrightUtils extends Utils {
    * @author Pabitra Swain (contact.the.sdet@gmail.com)
    */
   public boolean waitAndCheckIsInVisible(Locator element, Duration duration) {
-    element.waitFor(
-        new Locator.WaitForOptions().setState(WaitForSelectorState.HIDDEN).setTimeout(duration.toMillis()));
-    return element.isHidden();
+    try {
+      element.waitFor(
+          new Locator.WaitForOptions().setState(WaitForSelectorState.HIDDEN).setTimeout(duration.toMillis()));
+      Log.info("Element is NOT visible...");
+      return true;
+    } catch (Exception e) {
+      Log.info("Element is visible...");
+      return false;
+    }
   }
 
   /**
-   * Waits for the element identified by XPath to be present within a default
-   * duration of 5 seconds.
+   * Waits for the element identified by XPath to be present within specified
+   * timeout
    *
    * @param xpath
    *            XPath identifying the element
@@ -899,10 +1089,24 @@ public class PlaywrightUtils extends Utils {
     for (String xpath : xPaths) {
       try {
         return getElement(xpath);
-      } catch (org.openqa.selenium.NoSuchElementException e) {
+      } catch (NoSuchElementException e) {
         Log.info("No element found for Xpath: " + xpath);
       }
     }
     throw new NoSuchElementException("Element NOT found for any of the provided locators...");
+  }
+
+  /**
+   * Waits for the element identified by XPath to be present within a default
+   * duration of 5 seconds.
+   *
+   * @param xpath
+   *            XPath identifying the element
+   * @return WebElement representing the located element
+   * @author Pabitra Swain (contact.the.sdet@gmail.com)
+   */
+  public Locator waitAndFindElement(String xpath) {
+    page.waitForSelector(xpath, new Page.WaitForSelectorOptions().setTimeout(5000));
+    return page.locator(xpath);
   }
 }
