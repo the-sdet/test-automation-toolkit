@@ -257,4 +257,35 @@ public class CucumberUtils {
     getCurrentScenario().log(ABORT_LOG.replace("$message", message));
     Log.info(message);
   }
+
+  /**
+   * Extracts the feature name from the given Scenario object.
+   *
+   * @param scenario
+   *            The Scenario object from Cucumber.
+   * @param withPackageName
+   *            A boolean indicating whether to include package name along with
+   *            feature name.
+   * @return The feature name extracted from the Scenario.
+   * @author Pabitra Swain (contact.the.sdet@gmail.com)
+   */
+  public static String getFeatureNameFromScenario(Scenario scenario, boolean withPackageName) {
+    String uri = scenario.getUri().toString();
+    String featureName, packageName;
+    String[] test = uri.split("/");
+    if (uri.startsWith("file")) {
+      int size = test.length;
+      featureName = test[size - 1].split("\\.")[0];
+      packageName = test[size - 2];
+    } else {
+      featureName = test[1].split("\\.")[0];
+      packageName = test[0].split(":")[1];
+    }
+    Log.info("Feature: " + featureName);
+    Log.info("Package: " + packageName);
+    if (withPackageName)
+      return packageName + " - " + featureName;
+    else
+      return featureName;
+  }
 }

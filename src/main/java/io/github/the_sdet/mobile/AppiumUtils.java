@@ -111,7 +111,7 @@ public class AppiumUtils extends SeleniumUtils {
    * @author Pabitra Swain (contact.the.sdet@gmail.com)
    */
   public void pressBackKey() {
-    pressBackKey(AndroidKey.BACK);
+    pressKey(AndroidKey.BACK);
   }
 
   /**
@@ -121,7 +121,7 @@ public class AppiumUtils extends SeleniumUtils {
    *            Key
    * @author Pabitra Swain (contact.the.sdet@gmail.com)
    */
-  public void pressBackKey(AndroidKey key) {
+  public void pressKey(AndroidKey key) {
     Log.info("This method is only applicable for Android...");
     if (driver instanceof AndroidDriver) {
       ((PressesKey) driver).pressKey(new KeyEvent(key));

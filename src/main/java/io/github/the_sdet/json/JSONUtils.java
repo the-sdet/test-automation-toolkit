@@ -1,6 +1,7 @@
 package io.github.the_sdet.json;
 
 import com.jayway.jsonpath.JsonPath;
+import io.github.the_sdet.logger.Log;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -64,8 +65,28 @@ public class JSONUtils {
    * @return String value of element from JSON
    * @author Pabitra Swain (contact.the.sdet@gmail.com)
    */
-  public static String getElementFromJsonString(String jsonString, String elementPath) {
+  public static String getElementValueFromJsonString(String jsonString, String elementPath) {
     return JsonPath.read(jsonString, elementPath).toString();
+  }
+
+  /**
+   * This method updates the value of an element in JSON String using json path
+   * and returns the JSON String
+   *
+   * @param jsonString
+   *            JSON String
+   * @param elementPath
+   *            element path which value is to be replaced
+   * @param elementValueToReplaced
+   *            new value to replace
+   * @return updated JSON String
+   * @author Pabitra Swain (contact.the.sdet@gmail.com)
+   */
+  public static String updateElementFromJsonString(String jsonString, String elementPath,
+      String elementValueToReplaced) {
+    Log.info("Replacing existing value of Element " + getElementValueFromJsonString(jsonString, elementPath)
+        + " with " + elementValueToReplaced);
+    return JsonPath.parse(jsonString).set(elementPath, elementValueToReplaced).jsonString();
   }
 
   /**

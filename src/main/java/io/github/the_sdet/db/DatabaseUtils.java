@@ -72,6 +72,7 @@ public class DatabaseUtils {
    * @author Pabitra Swain (contact.the.sdet@gmail.com)
    */
   public List<LinkedHashMap<String, String>> readDataFromDbWithColumnNames(String sql) {
+    Log.info("Query: " + sql);
     initializeConnectionToDb();
     assert statement != null;
     ResultSet resultSet = null;
@@ -94,6 +95,7 @@ public class DatabaseUtils {
    * @author Pabitra Swain (contact.the.sdet@gmail.com)
    */
   public List<List<String>> readDataFromDb(String sql) {
+    Log.info("Query: " + sql);
     initializeConnectionToDb();
     ResultSet resultSet = null;
     try {
@@ -129,7 +131,6 @@ public class DatabaseUtils {
    */
   public List<String> readSingleRowFromDb(String sql) {
     List<List<String>> dataFromDb = readDataFromDb(sql);
-    Log.info("Data fetched from DB: " + dataFromDb);
     if (dataFromDb.isEmpty()) {
       Log.error("No records fetched from DB for query: " + sql);
       return new ArrayList<>();
@@ -201,6 +202,7 @@ public class DatabaseUtils {
     } catch (SQLException e) {
       Log.error("Error parsing the result-set...", e);
     }
+    Log.info("Data fetched from DB: " + result);
     return result;
   }
 
@@ -234,6 +236,7 @@ public class DatabaseUtils {
     } catch (SQLException e) {
       Log.error("Error parsing the result-set...", e);
     }
+    Log.info("Data fetched from DB: " + result);
     return result;
   }
 }
