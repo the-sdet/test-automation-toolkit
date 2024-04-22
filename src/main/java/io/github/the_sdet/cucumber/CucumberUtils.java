@@ -9,6 +9,9 @@ import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 /**
  * Utility class for Cucumber use cases.
  *
@@ -287,5 +290,18 @@ public class CucumberUtils {
       return packageName + " - " + featureName;
     else
       return featureName;
+  }
+
+  /**
+   * Retrieves all tags associated with the provided Scenario object.
+   *
+   * @param scenario
+   *            the Scenario object from which to retrieve the tags.
+   * @return a List containing all tags associated with the provided Scenario
+   *         object, without the leading '@' symbol.
+   * @author Pabitra Swain (contact.the.sdet@gmail.com)
+   */
+  public static List<String> getAllTagsOnScenario(Scenario scenario) {
+    return scenario.getSourceTagNames().stream().map(e -> e.substring(1)).collect(Collectors.toList());
   }
 }
