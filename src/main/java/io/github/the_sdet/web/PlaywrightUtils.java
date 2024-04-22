@@ -256,7 +256,7 @@ public class PlaywrightUtils extends Utils {
    * @author Pabitra Swain (contact.the.sdet@gmail.com)
    */
   @Override
-  String getElementTextContent(String xpath, boolean waitForElement) {
+  public String getElementTextContent(String xpath, boolean waitForElement) {
     if (waitForElement) {
       return waitAndFindElement(xpath).textContent().trim();
     } else
@@ -276,7 +276,7 @@ public class PlaywrightUtils extends Utils {
    * @author Pabitra Swain (contact.the.sdet@gmail.com)
    */
   @Override
-  String getElementTextContent(String xpath, boolean waitForElement, Duration duration) {
+  public String getElementTextContent(String xpath, boolean waitForElement, Duration duration) {
     if (waitForElement) {
       return waitAndFindElement(xpath, duration).textContent().trim();
     } else
@@ -354,7 +354,7 @@ public class PlaywrightUtils extends Utils {
    * @author Pabitra Swain (contact.the.sdet@gmail.com)
    */
   @Override
-  int getElementsCount(String xpath) {
+  public int getElementsCount(String xpath) {
     return getElements(xpath).size();
   }
 
@@ -369,7 +369,7 @@ public class PlaywrightUtils extends Utils {
    * @author Pabitra Swain (contact.the.sdet@gmail.com)
    */
   @Override
-  int getElementsCount(String xpath, boolean waitForFirstElement) {
+  public int getElementsCount(String xpath, boolean waitForFirstElement) {
     if (waitForFirstElement) {
       return getElements(xpath, true).size();
     } else
@@ -389,7 +389,7 @@ public class PlaywrightUtils extends Utils {
    * @author Pabitra Swain (contact.the.sdet@gmail.com)
    */
   @Override
-  int getElementsCount(String xpath, boolean waitForFirstElement, Duration duration) {
+  public int getElementsCount(String xpath, boolean waitForFirstElement, Duration duration) {
     if (waitForFirstElement) {
       return getElements(xpath, true, duration).size();
     } else
@@ -952,7 +952,7 @@ public class PlaywrightUtils extends Utils {
    * @author Pabitra Swain (contact.the.sdet@gmail.com)
    */
   @Override
-  void waitForElementToBeVisible(String xpath, Duration duration) {
+  public void waitForElementToBeVisible(String xpath, Duration duration) {
     waitForElementToBeVisible(page.locator(xpath), duration);
   }
 
@@ -966,7 +966,7 @@ public class PlaywrightUtils extends Utils {
    * @author Pabitra Swain (contact.the.sdet@gmail.com)
    */
   @Override
-  void waitForElementToBeInvisible(String xpath, Duration duration) {
+  public void waitForElementToBeInvisible(String xpath, Duration duration) {
     waitForElementToBeInvisible(page.locator(xpath), duration);
   }
 
@@ -980,7 +980,7 @@ public class PlaywrightUtils extends Utils {
    * @author Pabitra Swain (contact.the.sdet@gmail.com)
    */
   @Override
-  void waitForElementToBeClickable(String xpath, Duration duration) {
+  public void waitForElementToBeClickable(String xpath, Duration duration) {
     waitForElementToBeClickable(page.locator(xpath), duration);
   }
 
@@ -993,7 +993,7 @@ public class PlaywrightUtils extends Utils {
    *            maximum duration to wait
    * @author Pabitra Swain (contact.the.sdet@gmail.com)
    */
-  void waitForElementToBeVisible(Locator locator, Duration duration) {
+  public void waitForElementToBeVisible(Locator locator, Duration duration) {
     locator.waitFor(
         new Locator.WaitForOptions().setState(WaitForSelectorState.VISIBLE).setTimeout(duration.toMillis()));
   }
@@ -1007,7 +1007,7 @@ public class PlaywrightUtils extends Utils {
    *            maximum duration to wait
    * @author Pabitra Swain (contact.the.sdet@gmail.com)
    */
-  void waitForElementToBeInvisible(Locator locator, Duration duration) {
+  public void waitForElementToBeInvisible(Locator locator, Duration duration) {
     locator.waitFor(
         new Locator.WaitForOptions().setState(WaitForSelectorState.HIDDEN).setTimeout(duration.toMillis()));
   }
@@ -1021,7 +1021,7 @@ public class PlaywrightUtils extends Utils {
    *            maximum duration to wait
    * @author Pabitra Swain (contact.the.sdet@gmail.com)
    */
-  void waitForElementToBeClickable(Locator locator, Duration duration) {
+  public void waitForElementToBeClickable(Locator locator, Duration duration) {
     locator.waitFor(new Locator.WaitForOptions().setTimeout(duration.toMillis()));
   }
 
@@ -1032,7 +1032,7 @@ public class PlaywrightUtils extends Utils {
    * @author Pabitra Swain (contact.the.sdet@gmail.com)
    */
   @Override
-  String getPageSource() {
+  public String getPageSource() {
     return page.content();
   }
 

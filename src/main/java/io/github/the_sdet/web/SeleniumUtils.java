@@ -380,7 +380,7 @@ public class SeleniumUtils extends Utils {
    * @author Pabitra Swain (contact.the.sdet@gmail.com)
    */
   @Override
-  String getElementTextContent(String xpath, boolean waitForElement) {
+  public String getElementTextContent(String xpath, boolean waitForElement) {
     if (waitForElement) {
       return waitAndFindElement(xpath).getText().trim();
     } else
@@ -397,7 +397,7 @@ public class SeleniumUtils extends Utils {
    * @return The text content of WebElement
    * @author Pabitra Swain (contact.the.sdet@gmail.com)
    */
-  String getElementTextContent(By element, boolean waitForElement) {
+  public String getElementTextContent(By element, boolean waitForElement) {
     if (waitForElement) {
       return waitAndFindElement(element).getText().trim();
     } else
@@ -417,7 +417,7 @@ public class SeleniumUtils extends Utils {
    * @author Pabitra Swain (contact.the.sdet@gmail.com)
    */
   @Override
-  String getElementTextContent(String xpath, boolean waitForElement, Duration duration) {
+  public String getElementTextContent(String xpath, boolean waitForElement, Duration duration) {
     if (waitForElement) {
       return waitAndFindElement(xpath, duration).getText().trim();
     } else
@@ -436,7 +436,7 @@ public class SeleniumUtils extends Utils {
    * @return The text content of WebElement
    * @author Pabitra Swain (contact.the.sdet@gmail.com)
    */
-  String getElementTextContent(By element, boolean waitForElement, Duration duration) {
+  public String getElementTextContent(By element, boolean waitForElement, Duration duration) {
     if (waitForElement) {
       return waitAndFindElement(element, duration).getText().trim();
     } else
@@ -573,7 +573,7 @@ public class SeleniumUtils extends Utils {
    * @author Pabitra Swain (contact.the.sdet@gmail.com)
    */
   @Override
-  int getElementsCount(String xpath) {
+  public int getElementsCount(String xpath) {
     return getElements(xpath).size();
   }
 
@@ -588,7 +588,7 @@ public class SeleniumUtils extends Utils {
    * @author Pabitra Swain (contact.the.sdet@gmail.com)
    */
   @Override
-  int getElementsCount(String xpath, boolean waitForFirstElement) {
+  public int getElementsCount(String xpath, boolean waitForFirstElement) {
     if (waitForFirstElement) {
       return getElements(xpath, true).size();
     } else
@@ -608,7 +608,7 @@ public class SeleniumUtils extends Utils {
    * @author Pabitra Swain (contact.the.sdet@gmail.com)
    */
   @Override
-  int getElementsCount(String xpath, boolean waitForFirstElement, Duration duration) {
+  public int getElementsCount(String xpath, boolean waitForFirstElement, Duration duration) {
     if (waitForFirstElement) {
       return getElements(xpath, true, duration).size();
     } else
@@ -623,7 +623,7 @@ public class SeleniumUtils extends Utils {
    * @return The element count
    * @author Pabitra Swain (contact.the.sdet@gmail.com)
    */
-  int getElementsCount(By element) {
+  public int getElementsCount(By element) {
     return getElements(element).size();
   }
 
@@ -637,7 +637,7 @@ public class SeleniumUtils extends Utils {
    * @return The element count
    * @author Pabitra Swain (contact.the.sdet@gmail.com)
    */
-  int getElementsCount(By element, boolean waitForFirstElement) {
+  public int getElementsCount(By element, boolean waitForFirstElement) {
     if (waitForFirstElement) {
       return getElements(element, true).size();
     } else
@@ -656,7 +656,7 @@ public class SeleniumUtils extends Utils {
    * @return The element count
    * @author Pabitra Swain (contact.the.sdet@gmail.com)
    */
-  int getElementsCount(By element, boolean waitForFirstElement, Duration duration) {
+  public int getElementsCount(By element, boolean waitForFirstElement, Duration duration) {
     if (waitForFirstElement) {
       return getElements(element, true, duration).size();
     } else
@@ -1482,7 +1482,7 @@ public class SeleniumUtils extends Utils {
    * @author Pabitra Swain (contact.the.sdet@gmail.com)
    */
   @Override
-  void waitForElementToBeVisible(String xpath, Duration duration) {
+  public void waitForElementToBeVisible(String xpath, Duration duration) {
     waitForElementToBeVisible(By.xpath(xpath), duration);
   }
 
@@ -1496,7 +1496,7 @@ public class SeleniumUtils extends Utils {
    * @author Pabitra Swain (contact.the.sdet@gmail.com)
    */
   @Override
-  void waitForElementToBeInvisible(String xpath, Duration duration) {
+  public void waitForElementToBeInvisible(String xpath, Duration duration) {
     waitForElementToBeInvisible(By.xpath(xpath), duration);
   }
 
@@ -1510,7 +1510,7 @@ public class SeleniumUtils extends Utils {
    * @author Pabitra Swain (contact.the.sdet@gmail.com)
    */
   @Override
-  void waitForElementToBeClickable(String xpath, Duration duration) {
+  public void waitForElementToBeClickable(String xpath, Duration duration) {
     waitForElementToBeClickable(By.xpath(xpath), duration);
   }
 
@@ -1523,7 +1523,7 @@ public class SeleniumUtils extends Utils {
    *            maximum duration to wait
    * @author Pabitra Swain (contact.the.sdet@gmail.com)
    */
-  void waitForElementToBeVisible(By locator, Duration duration) {
+  public void waitForElementToBeVisible(By locator, Duration duration) {
     new WebDriverWait(driver, duration).until(ExpectedConditions.visibilityOfElementLocated(locator));
   }
 
@@ -1536,7 +1536,7 @@ public class SeleniumUtils extends Utils {
    *            maximum duration to wait
    * @author Pabitra Swain (contact.the.sdet@gmail.com)
    */
-  void waitForElementToBeInvisible(By locator, Duration duration) {
+  public void waitForElementToBeInvisible(By locator, Duration duration) {
     new WebDriverWait(driver, duration).until(ExpectedConditions.invisibilityOfElementLocated(locator));
   }
 
@@ -1549,7 +1549,7 @@ public class SeleniumUtils extends Utils {
    *            maximum duration to wait
    * @author Pabitra Swain (contact.the.sdet@gmail.com)
    */
-  void waitForElementToBeClickable(By locator, Duration duration) {
+  public void waitForElementToBeClickable(By locator, Duration duration) {
     new WebDriverWait(driver, duration).until(ExpectedConditions.elementToBeClickable(locator));
   }
 
@@ -1560,7 +1560,7 @@ public class SeleniumUtils extends Utils {
    * @author Pabitra Swain (contact.the.sdet@gmail.com)
    */
   @Override
-  String getPageSource() {
+  public String getPageSource() {
     return driver.getPageSource();
   }
 
@@ -1883,7 +1883,7 @@ public class SeleniumUtils extends Utils {
    * @return boolean - true if the scroll were successful, false otherwise
    * @author Pabitra Swain (pabitra.swain.work@gmail.com)
    */
-  private boolean scrollToElement(By element) {
+  public boolean scrollToElement(By element) {
     try {
       WebElement webElement = getElement(element);
       actions.moveToElement(webElement).perform();
@@ -1902,7 +1902,7 @@ public class SeleniumUtils extends Utils {
    * @return boolean - true if the scroll were successful, false otherwise
    * @author Pabitra Swain (pabitra.swain.work@gmail.com)
    */
-  private boolean scrollToElement(String xpath) {
+  public boolean scrollToElement(String xpath) {
     return scrollToElement(By.xpath(xpath));
   }
 
